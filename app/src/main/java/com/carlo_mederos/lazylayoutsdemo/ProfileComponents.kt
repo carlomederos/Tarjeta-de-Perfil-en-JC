@@ -14,10 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.carlo_mederos.lazylayoutsdemo.ui.theme.InterestsLazyRow
 
 @Composable
 fun ProfileCard(user: UserProfile, modifier: Modifier = Modifier) {
@@ -59,7 +58,7 @@ fun ProfileCard(user: UserProfile, modifier: Modifier = Modifier) {
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = user.name,
                     style = MaterialTheme.typography.titleLarge,
@@ -73,16 +72,10 @@ fun ProfileCard(user: UserProfile, modifier: Modifier = Modifier) {
                 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(user.interests) { interest ->
-                        AssistChip(
-                            onClick = { },
-                            label = { Text(interest) }
-                        )
-                    }
-                }
+                InterestsLazyRow(
+                    interests = user.interests,
+                    contentPadding = PaddingValues(0.dp)
+                )
             }
         }
     }
@@ -95,7 +88,10 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             id = i,
             name = "User $i",
             bio = "Usuario $i. Prueba de texto.",
-            interests = listOf("Android", "Kotlin", "Diseño", "Cine", "Deporte").shuffled().take(3)
+            interests = listOf(
+                "Android", "Kotlin", "Compose", "Diseño", "Cine",
+                "Deporte", "Música", "Viajes", "Fotografía", "Gaming"
+            ).shuffled().take(6)
         )
     }
 
